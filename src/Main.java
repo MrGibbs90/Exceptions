@@ -20,7 +20,7 @@ public class Main {
         return true;
     }
     public static void main(String[] args) throws WrongPasswordException {
-        String login = "jdscjlsdcnsdk_3908490584";
+        String login = "jdscjlsdcnsdk_39340984";
         String password = "kcjvsdkjcksdc;";
         String confirmPassword = "wkvhjjcvkj";
 
