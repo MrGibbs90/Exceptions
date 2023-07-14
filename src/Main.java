@@ -1,45 +1,45 @@
 public class Main {
-    public static boolean authentication(String login, String password, String confirmPassword) {
-        if (login.length() > 20) {
-            try {
-                throw new WrongLoginException("Превышена длина логина");
-            } catch (WrongLoginException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        if (login.matches("[a-z]+")) {
-        } else {
-            try {
-                throw new WrongLoginException("Превышена длина логина");
-            } catch (WrongLoginException e) {
-                throw new RuntimeException();
-            }
-        }
+    public static final String VALIDATE_PATTERN = "^[a-zA-Z0-9-_]+$";
+    public static void login(String login)
+    throws WrongLoginException {
 
-        if (password.length() > 19) {
-            try {
-                throw new WrongPasswordException("Превышена длина пароля");
-            } catch (WrongPasswordException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        if (!password.equals(confirmPassword)) {
-            try {
-                throw new WrongPasswordException("Пароли не совпадают");
-            } catch (WrongPasswordException e) {
-                throw new RuntimeException(e);
-            }
-        }
+        if (!login.matches(VALIDATE_PATTERN)) {
 
-        return true;
+            throw new WrongLoginException("Логин содержит недопустимые символы");
+
+        } else if (login.length() > 20) {
+            throw new WrongLoginException("Превышена длина логина");
+        }
     }
-    public static void main(String[] args) throws WrongPasswordException {
-        String login = "jdscjlsdcnsdk_39340984";
-        String password = "kcjvsdkjcksdc;";
-        String confirmPassword = "wkvhjjcvkj";
 
-        boolean completeAuthentication = false;
-        completeAuthentication = authentication(login, password, confirmPassword);
-        System.out.println("Регистрация: " + completeAuthentication);
+    public static void password(String password, String confirmPassword)
+        throws WrongPasswordException{
+        if (!password.matches(VALIDATE_PATTERN)) {
+            throw new WrongPasswordException("Пароль содержит недопустимые символы");
+        } else if (!password.equals(confirmPassword)) {
+            throw new WrongPasswordException("Пароли не совпадают");
+        }
+    }
+
+    public static void check(String login, String password, String confirmPassword) {
+        boolean isValid = true;
+        try {
+            login(login);
+            password(password, confirmPassword);
+        } catch (WrongLoginException e) {
+            System.out.println("Ошибка логина: " + e.getMessage());
+            isValid = false;
+        } catch (WrongPasswordException e) {
+            System.out.println("Ошибка пароля: " + e.getMessage());
+            isValid = false;
+        }
+        if (isValid) {
+            System.out.println("Логин и пароль введены корректно");
+            
+        }
+    }
+
+    public static void main(String[] args) {
+
     }
 }
